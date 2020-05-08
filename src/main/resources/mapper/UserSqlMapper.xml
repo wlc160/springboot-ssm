@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.demo.user.dao.UserDao" >
+
+	<!-- 查询数据列Sql不转换成对应的Java命名 -->
+	<sql id="Base_Column_List" >
+		ID,
+		NAME,
+		AGE
+	</sql>
+	
+	<!-- 查询数据列Sql换成对应的Java命名 -->
+	<sql id="Base_Column_List_JavaName" >
+		ID as id,
+		NAME as name,
+		AGE as age
+	</sql>
+	
+	<!-- 写入操作的SQL -->
+	<sql id="Insert_Base_values">
+		#{id,jdbcType=INTEGER},
+ 		#{name,jdbcType=VARCHAR},
+ 		#{age,jdbcType=INTEGER}
+ 	</sql>
+	
+	<!-- 
+		insert操作给定的参数是java.util.Map<String,Object>类型的对象，
+		与<sql id="Insert_Base_values">中配置的列一致
+	-->
+	<insert id="insert" parameterType="com.ssm.demo.user.pojo.User" >
+    insert into user (
+		<include refid="Base_Column_List" />
+    )
+	values (
+		<include refid="Insert_Base_values" />
+    )
+	</insert>
+	
+	<!-- 多条件查询数据列表 -->
+	<select id="selectList" parameterType="map" resultType="com.ssm.demo.user.pojo.User">
+	    select
+		<include refid="Base_Column_List_JavaName"/>
+		from user
+		<where>
+		<if test="name != null and name != ''">
+			and NAME like concat(#{name,jdbcType=VARCHAR},'%');
+		</if>
+ 		<if test="age != null and age != ''">
+			and AGE = #{age,jdbcType=INTEGER}
+		</if>
+		</where>
+	</select>		
+
+</mapper>

@@ -1,0 +1,29 @@
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/test?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123456
+    driver-class-name: org.mariadb.jdbc.Driver
+  profiles:
+    active: dev
+  mvc:
+    view:
+      prefix: /WEB-INF/pages
+      suffix: .jsp
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    root: debug
+  file:
+    path: D://myproject_log
